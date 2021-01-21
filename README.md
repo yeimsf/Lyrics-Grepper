@@ -1,9 +1,9 @@
-## Avalanche Lyrics Finder
-
-
-### This Tool Is Used For Searching On A Specific Song's Lyrics
+## Avalanche Lyrics Finder -  A Tool That Is Used For Searching On A Specific Song's Lyrics
 
 ### This Tool Requires The Latest Version Of Googler To Be Installed In /usr/local
+### This Tool Also Requires Having A Youtube API Authontication Key
+
+
 #### Help Manual:
 
 ```
