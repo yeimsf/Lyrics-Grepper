@@ -36,8 +36,24 @@ else
             read confirmation
             if [ "${confirmation}" = 'Y' ]
             then
-                template="$artist- $song"
-                echo $(~/Documents/googler/googler/googler "$template" -j -w https://www.musixmatch.com/lyrics -n 1)   
+                template="$artist- $song"  
+                echo -n $(/usr/local/googler/googler "$template" -w https://www.musixmatch.com/lyrics --np -n 1 > Result.txt)
+                input="./Result.txt"
+                Str_Res=$(cat Result.txt | grep https)
+                echo -n $(curl -s $Str_Res > 'source.txt')
+                echo -n $(awk '/lyrics__content__ok/{f=1} f; /\/span/{f=0}' source.txt | sed -e 's/<[^>]*>/\n/g' | sed -n '17,$p' > Dlyrics.txt) 
+                linenum=$(wc -l Dlyrics.txt | sed 's/[^0-9]*//g')
+                linenum=$((linenum-16))
+                head -c -1 -n +$linenum Dlyrics.txt > lyrics.txt
+                rm Result.txt Dlyrics.txt source.txt
+                echo -n "Proccessing."
+                sleep 0.7
+                echo -n "."
+                sleep 0.7
+                echo -e ".\n=============== Lyrics ================"
+                cat lyrics.txt | tr -s '\n'
+                echo "================ END ================="
+                rm lyrics.txt
                 exit
             else
                 echo -en "---------- Please Submit An Issue At https://github.com/yeimsf/Lyrics-Grepper ----------\nTermination."
@@ -48,7 +64,7 @@ else
                 exit
             fi
         else
-            echo -e "Invalid argument - See help page '-h'"
+            echo -e "Avalanche Lyrics-Finder: Invalid argument - See help page '-h'"
             exit
         fi
     done
